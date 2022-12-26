@@ -1,10 +1,11 @@
 import { StyleSheet, View, StatusBar } from 'react-native';
 import DayView from './Components/DayView';
+import Login from './Components/Login';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <DayView></DayView>
+      <Login></Login>
       <StatusBar backgroundColor="white"/>
     </View>
   );
@@ -13,9 +14,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#223322',
     alignItems: 'center',
     justifyContent: 'center',
     // marginTop: StatusBar.currentHeight
   },
+  view : {
+    backgroundColor : '#223322'
+  }
 });
