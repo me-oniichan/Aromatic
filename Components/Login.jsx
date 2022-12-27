@@ -1,7 +1,14 @@
 import {useState } from "react";
 import { View, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
+import { createUserWithEmailAndPassword} from "firebase/auth";
+import { auth } from "../Firebase/app";
+// import { store } from "../Reducers/Reduer";
+import { useStore } from "react-redux";
+
+// const auth = getAuth();
 
 export default function Login() {
+    const store = useStore()
     const [dstyle, setDstyle] = useState({
         userBorderWidth: 1,
         passBorderWidth: 1,
@@ -15,11 +22,17 @@ export default function Login() {
     const [passVar, setPassVar] = useState('');
 
     const login = () =>{
-        console.log(userVar, passVar);
+        
     }
 
     const signup = () =>{
-        console.log('pass')
+        createUserWithEmailAndPassword(auth, userVar+'@baka.aromatic', passVar).then((user)=>{
+            store.dispatch({
+                type : 'User/loadUser',
+                payload : user.user.email
+            })
+            console.log(store.getState(), userVar)
+        }).catch(err=>{console.log(err)})
     }
 
     return (

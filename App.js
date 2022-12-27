@@ -1,13 +1,16 @@
 import { StyleSheet, View, StatusBar } from 'react-native';
 import DayView from './Components/DayView';
 import Login from './Components/Login';
-
+import { Provider } from 'react-redux';
+import {store} from './Reducers/Reduer.jsx'
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Login></Login>
-      <StatusBar backgroundColor="white"/>
-    </View>
+    <Provider store={store}>
+      <View style={styles.container}>
+        <Login></Login>
+        <StatusBar backgroundColor="white"/>
+      </View>
+    </Provider>
   );
 }
 

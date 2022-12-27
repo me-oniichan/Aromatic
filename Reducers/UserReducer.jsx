@@ -5,11 +5,11 @@ const UserReducer = createSlice({
     initialState : null,
     reducers : {
         loadUser(state, action){
-            state = action.payload
+            return action.payload
         },
 
         logout(state, action){
-            state = null;
+            return null;
         }
     }  
 })
