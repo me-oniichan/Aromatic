@@ -31,13 +31,18 @@ export default function Login() {
     }
 
     const signup = () =>{
-        createUserWithEmailAndPassword(auth, userVar+'@baka.aromatic', passVar).then((user)=>{
-            store.dispatch({
-                type : 'User/loadUser',
-                payload : userVar
-            });
-            console.log(user.user.email)
-        }).catch(err=>{console.log(err)})
+        if (passVar === confpassVar){
+            createUserWithEmailAndPassword(auth, userVar+'@baka.aromatic', passVar).then((user)=>{
+                store.dispatch({
+                    type : 'User/loadUser',
+                    payload : userVar
+                });
+                console.log(user.user.email)
+            }).catch(err=>{console.log(err)})
+        }
+        else{
+            console.log('password and confirmpassword mismatch')
+        }
     }
 
     return (

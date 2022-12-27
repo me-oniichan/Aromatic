@@ -20,7 +20,7 @@ const ThemeReducer = createSlice({
     initialState : dark,
     reducers : {
         switchTheme(state, action){
-            state = theme[action.payload];
+            return theme[action.payload];
         }
     }
 })

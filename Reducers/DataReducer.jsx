@@ -5,11 +5,11 @@ const DataReducer = createSlice({
     initialState: {},
     reducers : {
         dataLoad(state, action){
-            state = {...action.payload};
+            return {...action.payload};
         },
 
         dataUpdate(state, action){
-            state[action.prop] = action.payload;
+            return {...state, [action.prop] : action.payload}
         }
     }
 })
