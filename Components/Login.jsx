@@ -5,17 +5,26 @@ export default function Login() {
     const [dstyle, setDstyle] = useState({
         userBorderWidth: 1,
         passBorderWidth: 1,
+        confBorderWidth: 1,
+        nameBorderWidth: 1
     });
 
-    let [userVar, setUserVar] = useState('')
-    let [passVar, setPassVar] = useState('');
+    const [mode, setMOde] = useState(0) // 0 for login, 1 for signup
+
+    const [userVar, setUserVar] = useState('')
+    const [passVar, setPassVar] = useState('');
 
     const login = () =>{
         console.log(userVar, passVar);
     }
 
+    const signup = () =>{
+        console.log('pass')
+    }
+
     return (
         <View style={styles.view}>
+            <Text style={styles.head}> {mode ? 'Sign UP' : 'Login'} </Text>
             <TextInput
                 placeholder="Username"
                 style={[styles.input, { borderWidth: dstyle.userBorderWidth }]}
@@ -34,9 +43,37 @@ export default function Login() {
                 secureTextEntry
             />
 
-            <TouchableOpacity style={styles.button} onPress={login}>
-                <Text style={styles.text}>Login</Text>
+            {
+                mode? (
+                    <TextInput
+                        placeholder="Confirm password"
+                        style={[styles.input, { borderWidth: dstyle.confBorderWidth }]}
+                        placeholderTextColor="#fff"
+                        onFocus={() => setDstyle({ ...dstyle, confBorderWidth: 2 })}
+                        onBlur={() => setDstyle({ ...dstyle, confBorderWidth: 1 })}
+                        onChangeText={setPassVar}
+                        secureTextEntry
+                    />
+                ): null
+            }{
+                mode? (
+                    <TextInput
+                        placeholder="Name"
+                        style={[styles.input, { borderWidth: dstyle.nameBorderWidth }]}
+                        placeholderTextColor="#fff"
+                        onFocus={() => setDstyle({ ...dstyle, nameBorderWidth: 2 })}
+                        onBlur={() => setDstyle({ ...dstyle, nameBorderWidth: 1 })}
+                        onChangeText={setPassVar}
+                        secureTextEntry
+                    />
+                ): null
+            }
+
+            <TouchableOpacity style={styles.button} onPress={()=>{mode? signup() : login()}}>
+                <Text style={styles.text}>{mode ? 'Sign UP' : 'Login'}</Text>
             </TouchableOpacity>
+
+            <Text style={{color : 'beige', marginTop : 15}} onPress={()=>{setMOde(!mode)}}>{mode ? 'Already have account? Login' : 'Create Account? Sign up'}</Text>
         </View>
     );
 }
@@ -67,4 +104,9 @@ const styles = StyleSheet.create({
     view: {
         alignItems: "center",
     },
+    head:{
+        color : 'aqua',
+        fontSize : 35,
+        fontWeight : "700"
+    }
 });
