@@ -1,11 +1,8 @@
 import {useState } from "react";
 import { View, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
-import { createUserWithEmailAndPassword} from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import { auth } from "../Firebase/app";
-// import { store } from "../Reducers/Reduer";
 import { useStore } from "react-redux";
-
-// const auth = getAuth();
 
 export default function Login() {
     const store = useStore()
@@ -20,18 +17,26 @@ export default function Login() {
 
     const [userVar, setUserVar] = useState('')
     const [passVar, setPassVar] = useState('');
+    const [confpassVar, setConfpassVar] = useState('');
+    const [nameVar, setNameVar] = useState('');
 
     const login = () =>{
-        
+        signInWithEmailAndPassword(auth, userVar+'@baka.aromatic', passVar).then((user)=>{
+            store.dispatch({
+                type : 'User/loadUser',
+                payload : userVar
+            });
+            console.log(user.user.email)
+        }).catch(err=>{console.log(err)})
     }
 
     const signup = () =>{
         createUserWithEmailAndPassword(auth, userVar+'@baka.aromatic', passVar).then((user)=>{
             store.dispatch({
                 type : 'User/loadUser',
-                payload : user.user.email
-            })
-            console.log(store.getState(), userVar)
+                payload : userVar
+            });
+            console.log(user.user.email)
         }).catch(err=>{console.log(err)})
     }
 
@@ -41,7 +46,7 @@ export default function Login() {
             <TextInput
                 placeholder="Username"
                 style={[styles.input, { borderWidth: dstyle.userBorderWidth }]}
-                placeholderTextColor="#fff"
+                placeholderTextColor="#ccc"
                 onFocus={() => setDstyle({ ...dstyle, userBorderWidth: 2 })}
                 onBlur={() => setDstyle({ ...dstyle, userBorderWidth: 1 })}
                 onChangeText={setUserVar}
@@ -49,7 +54,7 @@ export default function Login() {
             <TextInput
                 placeholder="Password"
                 style={[styles.input, { borderWidth: dstyle.passBorderWidth }]}
-                placeholderTextColor="#fff"
+                placeholderTextColor="#ccc"
                 onFocus={() => setDstyle({ ...dstyle, passBorderWidth: 2 })}
                 onBlur={() => setDstyle({ ...dstyle, passBorderWidth: 1 })}
                 onChangeText={setPassVar}
@@ -61,10 +66,10 @@ export default function Login() {
                     <TextInput
                         placeholder="Confirm password"
                         style={[styles.input, { borderWidth: dstyle.confBorderWidth }]}
-                        placeholderTextColor="#fff"
+                        placeholderTextColor="#ccc"
                         onFocus={() => setDstyle({ ...dstyle, confBorderWidth: 2 })}
                         onBlur={() => setDstyle({ ...dstyle, confBorderWidth: 1 })}
-                        onChangeText={setPassVar}
+                        onChangeText={setConfpassVar}
                         secureTextEntry
                     />
                 ): null
@@ -73,10 +78,10 @@ export default function Login() {
                     <TextInput
                         placeholder="Name"
                         style={[styles.input, { borderWidth: dstyle.nameBorderWidth }]}
-                        placeholderTextColor="#fff"
+                        placeholderTextColor="#ccc"
                         onFocus={() => setDstyle({ ...dstyle, nameBorderWidth: 2 })}
                         onBlur={() => setDstyle({ ...dstyle, nameBorderWidth: 1 })}
-                        onChangeText={setPassVar}
+                        onChangeText={setNameVar}
                         secureTextEntry
                     />
                 ): null
