@@ -4,7 +4,7 @@ import DayView from "./Components/DayView";
 import Login from "./Components/Login";
 import { useSelector, useStore } from "react-redux";
 import { auth } from "./Firebase/app";
-import HeadStart from "./Components/HeadStart";
+import HeadStart from "./Components/ActivitySelector";
 
 export default function Main() {
     const store = useStore();
