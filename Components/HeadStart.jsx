@@ -3,38 +3,63 @@ import { Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, View } from 
 import { useStore } from "react-redux";
 import { db } from "../Firebase/app";
 
+const Card = ({text, callback}) =>{
+    return(
+        <View style={styles.cardview}>
+            <Text style={styles.cardtext}>{text}</Text>
+            <Text style={{color: '#999999', fontSize:20}} onPress={callback}>X</Text>
+        </View>
+    )
+}
+
 export default function HeadStart() {
     const [items, setItems] = useState([]);
     const [item, setItem] = useState([]);
+
     return (
         <View backgroundColor={"#2a2a2a"} style={styles.view}>
-            <View style={{ flexDirection: "row", backgroundColor: "#222222", borderRadius: 10 }}>
-                <TextInput style={styles.input} onChangeText={setItem} value={item}/>
-                <TouchableOpacity style={{ backgroundColor: "cyan", width: 80, alignItems: "center", justifyContent: "center" }} onPress={()=>{
-                    setItems([...items, item])
-                    setItem('')
-                }}>
+            <Text style={styles.head}>Add activities you want to schedule</Text>
+            <View style={{ flexDirection: "row", backgroundColor: "#222222", borderRadius: 10 , borderWidth : 1, borderColor : '#b75eff'}}>
+                <TextInput 
+                    style={styles.input} 
+                    onChangeText={setItem} 
+                    value={item}
+                />
+                <TouchableOpacity
+                    style={{ backgroundColor: "#b75eff", width: 80, alignItems: "center", justifyContent: "center", borderRadius: 8}}
+                    onPress={() => {
+                        setItems([...items, item]);
+                        setItem("");
+                    }}
+                >
                     <Text style={{ color: "white", fontSize: 20 }}>Add</Text>
                 </TouchableOpacity>
             </View>
-            <ScrollView>
-            {
-                items.map((i,j)=>(
-                    <Text key={j} style={[styles.input, {backgroundColor : 'purple', width: 350, margin : 5}]}>{i}</Text>
-                ))
-            }
+            <ScrollView style={styles.scview}>
+                {items.map((i, j) => (
+                    <Card key={j} text={i} callback={()=>{
+                        setItems(items.filter((elem, index)=>index != j))
+                    }}/>
+                ))}
             </ScrollView>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    head:{
+        color : 'white',
+        fontSize : 20,
+        marginBottom : 15
+    },
     view: {
         borderRadius: 15,
-        padding: 30,
+        padding: 15,
         width: 380,
         justifyContent: "center",
-        alignItems : 'center'
+        alignItems: "center",
+        borderColor: '#555555',
+        borderWidth : 1
     },
     input: {
         height: 60,
@@ -43,4 +68,22 @@ const styles = StyleSheet.create({
         fontSize: 20,
         padding: 10,
     },
+    scview : {
+        marginTop : 15
+    },
+    cardview:{
+        flexDirection : 'row',
+        backgroundColor : '#454545',
+        margin : 3,
+        borderRadius : 8,
+        paddingHorizontal : 15,
+        width : 300,
+        height : 50,
+        alignItems : 'center',
+        justifyContent: "space-between"
+    },
+    cardtext:{
+        color : 'white',
+        fontSize : 20
+    }
 });
