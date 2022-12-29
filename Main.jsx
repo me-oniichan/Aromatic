@@ -1,11 +1,8 @@
-import { StyleSheet, View, StatusBar } from "react-native";
-import { useEffect } from "react";
+import {StatusBar, StyleSheet, View} from "react-native";
+import {useEffect} from "react";
 import DayView from "./Components/DayView";
-import Login from "./Components/Login";
-import HeadStart from "./Components/ActivitySelector";
-import TimeSelector from "./Components/TimeSelector"
-import { useSelector, useStore } from "react-redux";
-import { auth } from "./Firebase/app";
+import {useSelector, useStore} from "react-redux";
+import {auth} from "./Firebase/app";
 
 export default function Main() {
     const store = useStore();
@@ -23,7 +20,7 @@ export default function Main() {
             {/* <HeadStart></HeadStart> */}
             {/* <TimeSelector/> */}
             <DayView/>
-            <StatusBar style="auto" />
+            <StatusBar style="auto"/>
         </View>
     );
 }

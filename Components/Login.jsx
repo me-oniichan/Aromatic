@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { View, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../Firebase/app";
-import { useStore } from "react-redux";
+import {useState} from "react";
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import {auth} from "../Firebase/app";
+import {useStore} from "react-redux";
 
 export default function Login() {
     const store = useStore();
@@ -57,18 +57,18 @@ export default function Login() {
             <Text style={styles.head}> {mode ? "Sign UP" : "Login"} </Text>
             <TextInput
                 placeholder="Username"
-                style={[styles.input, { borderWidth: dstyle.userBorderWidth }]}
+                style={[styles.input, {borderWidth: dstyle.userBorderWidth}]}
                 placeholderTextColor="#ccc"
-                onFocus={() => setDstyle({ ...dstyle, userBorderWidth: 2 })}
-                onBlur={() => setDstyle({ ...dstyle, userBorderWidth: 1 })}
+                onFocus={() => setDstyle({...dstyle, userBorderWidth: 2})}
+                onBlur={() => setDstyle({...dstyle, userBorderWidth: 1})}
                 onChangeText={setUserVar}
             />
             <TextInput
                 placeholder="Password"
-                style={[styles.input, { borderWidth: dstyle.passBorderWidth }]}
+                style={[styles.input, {borderWidth: dstyle.passBorderWidth}]}
                 placeholderTextColor="#ccc"
-                onFocus={() => setDstyle({ ...dstyle, passBorderWidth: 2 })}
-                onBlur={() => setDstyle({ ...dstyle, passBorderWidth: 1 })}
+                onFocus={() => setDstyle({...dstyle, passBorderWidth: 2})}
+                onBlur={() => setDstyle({...dstyle, passBorderWidth: 1})}
                 onChangeText={setPassVar}
                 secureTextEntry
             />
@@ -76,10 +76,10 @@ export default function Login() {
             {mode ? (
                 <TextInput
                     placeholder="Confirm password"
-                    style={[styles.input, { borderWidth: dstyle.confBorderWidth }]}
+                    style={[styles.input, {borderWidth: dstyle.confBorderWidth}]}
                     placeholderTextColor="#ccc"
-                    onFocus={() => setDstyle({ ...dstyle, confBorderWidth: 2 })}
-                    onBlur={() => setDstyle({ ...dstyle, confBorderWidth: 1 })}
+                    onFocus={() => setDstyle({...dstyle, confBorderWidth: 2})}
+                    onBlur={() => setDstyle({...dstyle, confBorderWidth: 1})}
                     onChangeText={setConfpassVar}
                     secureTextEntry
                 />
@@ -87,10 +87,10 @@ export default function Login() {
             {mode ? (
                 <TextInput
                     placeholder="Name"
-                    style={[styles.input, { borderWidth: dstyle.nameBorderWidth }]}
+                    style={[styles.input, {borderWidth: dstyle.nameBorderWidth}]}
                     placeholderTextColor="#ccc"
-                    onFocus={() => setDstyle({ ...dstyle, nameBorderWidth: 2 })}
-                    onBlur={() => setDstyle({ ...dstyle, nameBorderWidth: 1 })}
+                    onFocus={() => setDstyle({...dstyle, nameBorderWidth: 2})}
+                    onBlur={() => setDstyle({...dstyle, nameBorderWidth: 1})}
                     onChangeText={setNameVar}
                     secureTextEntry
                 />
@@ -106,7 +106,7 @@ export default function Login() {
             </TouchableOpacity>
 
             <Text
-                style={{ color: "beige", marginTop: 15 }}
+                style={{color: "beige", marginTop: 15}}
                 onPress={() => {
                     setMOde(!mode);
                 }}

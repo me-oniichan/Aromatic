@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 const DataReducer = createSlice({
-    name : 'data',
+    name: 'data',
     initialState: {},
-    reducers : {
-        dataLoad(state, action){
+    reducers: {
+        dataLoad(state, action) {
             return {...action.payload};
         },
 
-        dataUpdate(state, action){
-            return {...state, [action.prop] : action.payload}
+        dataUpdate(state, action) {
+            return {...state, [action.prop]: action.payload}
         }
     }
 })

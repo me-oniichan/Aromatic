@@ -1,14 +1,15 @@
-import { useState } from "react";
-import { View, Text, StyleSheet, TouchableHighlight, ScrollView } from "react-native";
+import {useState} from "react";
+import {ScrollView, StyleSheet, Text, TouchableHighlight, View} from "react-native";
+
 export default function () {
     const [selectedHours, setSelectedHours] = useState(new Array(24).fill(0).map((i, j) => [j + 1, 0]));
     return (
         <View style={styles.wrapper}>
             <Text style={styles.restime}>Mark your restricted time period</Text>
-            <ScrollView style={styles.scview} contentContainerStyle={{ alignItems: "center" }}>
+            <ScrollView style={styles.scview} contentContainerStyle={{alignItems: "center"}}>
                 {selectedHours.map(([i, j]) => (
                     <View key={i} style={styles.hourmap}>
-                        <View style={[styles.hourline, j ? styles.selected : styles.unselected]} />
+                        <View style={[styles.hourline, j ? styles.selected : styles.unselected]}/>
                         <TouchableHighlight
                             underlayColor={"red"}
                             style={[styles.hourbubble, j ? styles.selected : styles.unselected]}
@@ -23,7 +24,7 @@ export default function () {
                         >
                             <Text style={styles.hourtext}>{i}</Text>
                         </TouchableHighlight>
-                        <View style={[styles.hourline, j ? styles.selected : styles.unselected]} />
+                        <View style={[styles.hourline, j ? styles.selected : styles.unselected]}/>
                     </View>
                 ))}
             </ScrollView>

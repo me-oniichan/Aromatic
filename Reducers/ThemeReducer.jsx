@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 const light = {
     color: 'black',
-    bg : 'white',
+    bg: 'white',
 }
 
 const dark = {
-    color : 'white',
-    bg : 'black'
+    color: 'white',
+    bg: 'black'
 }
 
 const theme = {
@@ -16,10 +16,10 @@ const theme = {
 }
 
 const ThemeReducer = createSlice({
-    name : 'Theme',
-    initialState : dark,
-    reducers : {
-        switchTheme(state, action){
+    name: 'Theme',
+    initialState: dark,
+    reducers: {
+        switchTheme(state, action) {
             return theme[action.payload];
         }
     }

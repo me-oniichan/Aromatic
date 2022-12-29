@@ -1,13 +1,11 @@
-import { useState } from "react";
-import { Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, View } from "react-native";
-import { useStore } from "react-redux";
-import { db } from "../Firebase/app";
+import {useState} from "react";
+import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 
-const Card = ({ text, callback }) => {
+const Card = ({text, callback}) => {
     return (
         <View style={styles.cardview}>
             <Text style={styles.cardtext}>{text}</Text>
-            <Text style={{ color: "#999999", fontSize: 20 }} onPress={callback}>
+            <Text style={{color: "#999999", fontSize: 20}} onPress={callback}>
                 X
             </Text>
         </View>
@@ -21,16 +19,28 @@ export default function ActivitySelector() {
     return (
         <View backgroundColor={"#2a2a2a"} style={styles.view}>
             <Text style={styles.head}>Add activities you want to schedule</Text>
-            <View style={{ flexDirection: "row", backgroundColor: "#222222", borderRadius: 10, borderWidth: 1, borderColor: "#b75eff" }}>
-                <TextInput style={styles.input} onChangeText={setItem} value={item} />
+            <View style={{
+                flexDirection: "row",
+                backgroundColor: "#222222",
+                borderRadius: 10,
+                borderWidth: 1,
+                borderColor: "#b75eff"
+            }}>
+                <TextInput style={styles.input} onChangeText={setItem} value={item}/>
                 <TouchableOpacity
-                    style={{ backgroundColor: "#b75eff", width: 80, alignItems: "center", justifyContent: "center", borderRadius: 8 }}
+                    style={{
+                        backgroundColor: "#b75eff",
+                        width: 80,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 8
+                    }}
                     onPress={() => {
                         setItems([...items, item]);
                         setItem("");
                     }}
                 >
-                    <Text style={{ color: "white", fontSize: 20 }}>Add</Text>
+                    <Text style={{color: "white", fontSize: 20}}>Add</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.scview}>
@@ -45,8 +55,15 @@ export default function ActivitySelector() {
                 ))}
             </ScrollView>
 
-            <TouchableOpacity style={{ backgroundColor: "#b75eff", height: 40, width: '90%', alignItems: "center", justifyContent: "center", borderRadius: 8 }}>
-                <Text style={{ color: "white", fontSize: 20 }}>Done</Text>
+            <TouchableOpacity style={{
+                backgroundColor: "#b75eff",
+                height: 40,
+                width: '90%',
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 8
+            }}>
+                <Text style={{color: "white", fontSize: 20}}>Done</Text>
             </TouchableOpacity>
         </View>
     );
