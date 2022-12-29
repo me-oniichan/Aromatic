@@ -21,7 +21,8 @@ export default function Main() {
         <View style={styles.container}>
             {/* {store.getState().user === null ? <Login /> : <DayView />} */}
             {/* <HeadStart></HeadStart> */}
-            <TimeSelector/>
+            {/* <TimeSelector/> */}
+            <DayView/>
             <StatusBar style="auto" />
         </View>
     );
