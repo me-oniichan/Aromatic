@@ -2,9 +2,10 @@ import { StyleSheet, View, StatusBar } from "react-native";
 import { useEffect } from "react";
 import DayView from "./Components/DayView";
 import Login from "./Components/Login";
+import HeadStart from "./Components/ActivitySelector";
+import TimeSelector from "./Components/TimeSelector"
 import { useSelector, useStore } from "react-redux";
 import { auth } from "./Firebase/app";
-import HeadStart from "./Components/ActivitySelector";
 
 export default function Main() {
     const store = useStore();
@@ -19,7 +20,8 @@ export default function Main() {
     return (
         <View style={styles.container}>
             {/* {store.getState().user === null ? <Login /> : <DayView />} */}
-            <HeadStart></HeadStart>
+            {/* <HeadStart></HeadStart> */}
+            <TimeSelector/>
             <StatusBar style="auto" />
         </View>
     );
