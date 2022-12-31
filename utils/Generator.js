@@ -1,7 +1,4 @@
-const restricted = [6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17];
-const activities = ["React", "Angular", "Typescript", 'vue'];
-
-const genarate = (restricted, activities) => {
+const Generator = (restricted, activities) => {
 
     let dailyhours = 24 - restricted.length;
     let dailyshare = Math.floor(dailyhours / activities.length);
@@ -27,7 +24,7 @@ const genarate = (restricted, activities) => {
         schedule.push(day);
         apointer++;
     }
-    // console.log(schedule);
+
     return schedule.map(i=>{
         let index = 0;
         const day = new Array(24).fill(null);
@@ -39,4 +36,5 @@ const genarate = (restricted, activities) => {
         })
     })
 };
-console.log(genarate(restricted, activities));
+
+export default Generator;

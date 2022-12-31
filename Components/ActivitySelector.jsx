@@ -1,5 +1,9 @@
 import {useState} from "react";
 import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import { db } from "../Firebase/app";
+import { ref, set } from "firebase/database";
+import { useStore } from "react-redux";
+import Generator from "../utils/Generator";
 
 const Card = ({text, callback}) => {
     return (
@@ -15,6 +19,16 @@ const Card = ({text, callback}) => {
 export default function ActivitySelector() {
     const [items, setItems] = useState([]);
     const [item, setItem] = useState([]);
+
+    const store = useStore();
+
+    function Senddata(){
+        store.dispatch({
+            type : 'data/dataUpdate',
+            
+        })
+    }
+    
 
     return (
         <View backgroundColor={"#2a2a2a"} style={styles.view}>
@@ -61,8 +75,8 @@ export default function ActivitySelector() {
                 width: '90%',
                 alignItems: "center",
                 justifyContent: "center",
-                borderRadius: 8
-            }}>
+                borderRadius: 8,
+            }} onPress={Senddata}>
                 <Text style={{color: "white", fontSize: 20}}>Done</Text>
             </TouchableOpacity>
         </View>

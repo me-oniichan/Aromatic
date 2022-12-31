@@ -2,7 +2,11 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const DataReducer = createSlice({
     name: 'data',
-    initialState: {},
+    initialState: {
+        table : null,
+        name : null,
+        activities: null
+    },
     reducers: {
         dataLoad(state, action) {
             return {...action.payload};

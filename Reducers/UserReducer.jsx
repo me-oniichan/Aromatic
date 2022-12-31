@@ -3,7 +3,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const UserReducer = createSlice({
     name: "User",
-    initialState: null,
+    initialState: 'test',
     reducers: {
         loadUser(state, action) {
             return action.payload

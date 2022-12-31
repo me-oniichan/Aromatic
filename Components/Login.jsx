@@ -1,11 +1,20 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../Firebase/app";
-import {useStore} from "react-redux";
+import {useSelector, useStore} from "react-redux";
+import ActivitySelector from "./ActivitySelector";
 
 export default function Login() {
     const store = useStore();
+    const user = useSelector(state=>state.user)
+
+    useEffect(()=>{
+        if(user !== null && store.getState().data.table === null){
+            return <ActivitySelector/>
+        }
+    }, [user])
+
     const [dstyle, setDstyle] = useState({
         userBorderWidth: 1,
         passBorderWidth: 1,
@@ -35,6 +44,7 @@ export default function Login() {
     };
 
     const signup = () => {
+        //create user
         if (passVar === confpassVar) {
             createUserWithEmailAndPassword(auth, userVar + "@baka.aromatic", passVar)
                 .then((user) => {
@@ -48,7 +58,7 @@ export default function Login() {
                     console.log(err);
                 });
         } else {
-            console.log("password and confirmpassword mismatch");
+            console.log("Password and Confirm password mismatch");
         }
     };
 
