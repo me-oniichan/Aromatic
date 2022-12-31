@@ -23,10 +23,13 @@ export default function ActivitySelector() {
     const store = useStore();
 
     function Senddata(){
-        store.dispatch({
-            type : 'data/dataUpdate',
-            
-        })
+        set(ref(db, `${store.getState().user}/data/activities`), items).then(()=>{
+            store.dispatch({
+                type : 'data/dataUpdate',
+                prop : 'activities',
+                payload : items
+            })
+        }).catch(err=>console.log("*"*20,"\n", err))
     }
     
 

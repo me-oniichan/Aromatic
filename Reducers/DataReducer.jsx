@@ -5,7 +5,8 @@ const DataReducer = createSlice({
     initialState: {
         table : null,
         name : null,
-        activities: null
+        activities: null,
+        restricted : null
     },
     reducers: {
         dataLoad(state, action) {

@@ -1,19 +1,12 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../Firebase/app";
-import {useSelector, useStore} from "react-redux";
-import ActivitySelector from "./ActivitySelector";
+import {useStore} from "react-redux";
 
 export default function Login() {
     const store = useStore();
-    const user = useSelector(state=>state.user)
 
-    useEffect(()=>{
-        if(user !== null && store.getState().data.table === null){
-            return <ActivitySelector/>
-        }
-    }, [user])
 
     const [dstyle, setDstyle] = useState({
         userBorderWidth: 1,
