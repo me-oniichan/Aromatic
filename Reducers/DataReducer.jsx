@@ -4,7 +4,6 @@ const DataReducer = createSlice({
     name: 'data',
     initialState: {
         table : null,
-        name : null,
         activities: null,
         restricted : null
     },

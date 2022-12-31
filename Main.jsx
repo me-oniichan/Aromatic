@@ -9,7 +9,7 @@ import ActivitySelector from "./Components/ActivitySelector";
 
 export default function Main() {
     const store = useStore();
-    const { data } = store;
+    const { data } = store.getState();
     const user = useSelector((state) => state, user);
     useEffect(() => {
         store.dispatch({
