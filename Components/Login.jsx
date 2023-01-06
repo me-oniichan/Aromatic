@@ -1,12 +1,12 @@
-import {useState} from "react";
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import {auth} from "../Firebase/app";
-import {useStore} from "react-redux";
+import { useState } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../Firebase/app";
+import { useStore } from "react-redux";
+import { ref, set, get, child } from "firebase/database";
 
 export default function Login() {
     const store = useStore();
-
 
     const [dstyle, setDstyle] = useState({
         userBorderWidth: 1,
@@ -25,11 +25,20 @@ export default function Login() {
     const login = () => {
         signInWithEmailAndPassword(auth, userVar + "@baka.aromatic", passVar)
             .then((user) => {
-                store.dispatch({
-                    type: "User/loadUser",
-                    payload: userVar,
-                });
-                console.log(user.user.email);
+                get(child(ref(db), `${userVar}/data`))
+                    .then((snapshot) => {
+                        store.dispatch({
+                            type: "data/dataLoad",
+                            payload: snapshot.val(),
+                        });
+                        store.dispatch({
+                            type: "User/loadUser",
+                            payload: userVar,
+                        });
+                        console.log("data loaded", snapshot.val());
+                    })
+                    .catch((err) => console.log("\n\n", err));
+                console.log(user.user.email, "Dispatch from login");
             })
             .catch((err) => {
                 console.log(err);
@@ -41,11 +50,20 @@ export default function Login() {
         if (passVar === confpassVar) {
             createUserWithEmailAndPassword(auth, userVar + "@baka.aromatic", passVar)
                 .then((user) => {
-                    store.dispatch({
-                        type: "User/loadUser",
-                        payload: userVar,
+                    set(ref(db, `${userVar}`), {
+                        name: nameVar,
+                        data: {
+                            activities: null,
+                            restricted: null,
+                            table: null,
+                        },
+                    }).then(() => {
+                        store.dispatch({
+                            type: "User/loadUser",
+                            payload: userVar,
+                        });
+                        console.log(user.user.email, "New user dipacthed");
                     });
-                    console.log(user.user.email);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -60,18 +78,18 @@ export default function Login() {
             <Text style={styles.head}> {mode ? "Sign UP" : "Login"} </Text>
             <TextInput
                 placeholder="Username"
-                style={[styles.input, {borderWidth: dstyle.userBorderWidth}]}
+                style={[styles.input, { borderWidth: dstyle.userBorderWidth }]}
                 placeholderTextColor="#ccc"
-                onFocus={() => setDstyle({...dstyle, userBorderWidth: 2})}
-                onBlur={() => setDstyle({...dstyle, userBorderWidth: 1})}
+                onFocus={() => setDstyle({ ...dstyle, userBorderWidth: 2 })}
+                onBlur={() => setDstyle({ ...dstyle, userBorderWidth: 1 })}
                 onChangeText={setUserVar}
             />
             <TextInput
                 placeholder="Password"
-                style={[styles.input, {borderWidth: dstyle.passBorderWidth}]}
+                style={[styles.input, { borderWidth: dstyle.passBorderWidth }]}
                 placeholderTextColor="#ccc"
-                onFocus={() => setDstyle({...dstyle, passBorderWidth: 2})}
-                onBlur={() => setDstyle({...dstyle, passBorderWidth: 1})}
+                onFocus={() => setDstyle({ ...dstyle, passBorderWidth: 2 })}
+                onBlur={() => setDstyle({ ...dstyle, passBorderWidth: 1 })}
                 onChangeText={setPassVar}
                 secureTextEntry
             />
@@ -79,10 +97,10 @@ export default function Login() {
             {mode ? (
                 <TextInput
                     placeholder="Confirm password"
-                    style={[styles.input, {borderWidth: dstyle.confBorderWidth}]}
+                    style={[styles.input, { borderWidth: dstyle.confBorderWidth }]}
                     placeholderTextColor="#ccc"
-                    onFocus={() => setDstyle({...dstyle, confBorderWidth: 2})}
-                    onBlur={() => setDstyle({...dstyle, confBorderWidth: 1})}
+                    onFocus={() => setDstyle({ ...dstyle, confBorderWidth: 2 })}
+                    onBlur={() => setDstyle({ ...dstyle, confBorderWidth: 1 })}
                     onChangeText={setConfpassVar}
                     secureTextEntry
                 />
@@ -90,10 +108,10 @@ export default function Login() {
             {mode ? (
                 <TextInput
                     placeholder="Name"
-                    style={[styles.input, {borderWidth: dstyle.nameBorderWidth}]}
+                    style={[styles.input, { borderWidth: dstyle.nameBorderWidth }]}
                     placeholderTextColor="#ccc"
-                    onFocus={() => setDstyle({...dstyle, nameBorderWidth: 2})}
-                    onBlur={() => setDstyle({...dstyle, nameBorderWidth: 1})}
+                    onFocus={() => setDstyle({ ...dstyle, nameBorderWidth: 2 })}
+                    onBlur={() => setDstyle({ ...dstyle, nameBorderWidth: 1 })}
                     onChangeText={setNameVar}
                     secureTextEntry
                 />
@@ -109,7 +127,7 @@ export default function Login() {
             </TouchableOpacity>
 
             <Text
-                style={{color: "beige", marginTop: 15}}
+                style={{ color: "beige", marginTop: 15 }}
                 onPress={() => {
                     setMOde(!mode);
                 }}
