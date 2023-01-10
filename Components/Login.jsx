@@ -2,11 +2,11 @@ import { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../Firebase/app";
-import { useStore } from "react-redux";
-import { ref, set, get, child } from "firebase/database";
+import { useDispatch } from "react-redux";
+import { ref, set} from "firebase/database";
 
 export default function Login() {
-    const store = useStore();
+    const dispatch = useDispatch();
 
     const [dstyle, setDstyle] = useState({
         userBorderWidth: 1,
@@ -25,19 +25,10 @@ export default function Login() {
     const login = () => {
         signInWithEmailAndPassword(auth, userVar + "@baka.aromatic", passVar)
             .then((user) => {
-                get(child(ref(db), `${userVar}/data`))
-                    .then((snapshot) => {
-                        store.dispatch({
-                            type: "data/dataLoad",
-                            payload: snapshot.val(),
-                        });
-                        store.dispatch({
-                            type: "User/loadUser",
-                            payload: userVar,
-                        });
-                        console.log("data loaded", snapshot.val());
-                    })
-                    .catch((err) => console.log("\n\n", err));
+                dispatch({
+                    type: "User/loadUser",
+                    payload: userVar,
+                });
                 console.log(user.user.email, "Dispatch from login");
             })
             .catch((err) => {
@@ -58,7 +49,7 @@ export default function Login() {
                             table: null,
                         },
                     }).then(() => {
-                        store.dispatch({
+                        dispatch({
                             type: "User/loadUser",
                             payload: userVar,
                         });

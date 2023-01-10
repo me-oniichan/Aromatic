@@ -34,7 +34,6 @@ export default function DayView() {
                                 type: "User/logout",
                                 payload: null,
                             });
-                            console.log("logged out", store.getState());
                         })
                     }
                 >
