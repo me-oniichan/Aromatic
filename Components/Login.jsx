@@ -5,6 +5,11 @@ import { auth, db } from "../Firebase/app";
 import { useDispatch } from "react-redux";
 import { ref, set} from "firebase/database";
 
+function verify(user){
+    let res = user.match("^[a-zA-Z0-9_]*$");
+    return res===null? false : true;
+}
+
 export default function Login() {
     const dispatch = useDispatch();
 
@@ -22,6 +27,8 @@ export default function Login() {
     const [confpassVar, setConfpassVar] = useState("");
     const [nameVar, setNameVar] = useState("");
 
+    const [userauth, setUserauth] = useState(true);
+
     const login = () => {
         signInWithEmailAndPassword(auth, userVar + "@baka.aromatic", passVar)
             .then((user) => {
@@ -32,12 +39,17 @@ export default function Login() {
                 console.log(user.user.email, "Dispatch from login");
             })
             .catch((err) => {
-                console.log(err);
+                if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password") setUserauth(false);
+                console.log(err.message);
             });
     };
 
     const signup = () => {
         //create user
+        if (!verify(userVar)){
+            console.log("invalid username");
+            return;
+        }
         if (passVar === confpassVar) {
             createUserWithEmailAndPassword(auth, userVar + "@baka.aromatic", passVar)
                 .then((user) => {
@@ -107,7 +119,7 @@ export default function Login() {
                     secureTextEntry
                 />
             ) : null}
-
+            {!userauth? <Text style={{color:'red', marginBottom : 5}}>Username or password is wrong</Text>:""}
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {

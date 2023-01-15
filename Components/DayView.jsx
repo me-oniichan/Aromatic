@@ -22,11 +22,12 @@ export function Card({ hour, text }) {
 export default function DayView() {
     const { user, data } = useSelector((state) => ({ user: state.user, data: state.data }));
     const dispatch = useDispatch();
-    const day = new Date().getDay() -1;
+    const day = new Date().getDay();
+    // const day = 2;
     let first = data.restricted.length;
 
     for (let i = 0; i < data.restricted.length; i++) {
-        if (i !== data.restricted[i]){
+        if (i !== data.restricted[i]) {
             first = i;
             break;
         }
@@ -35,7 +36,7 @@ export default function DayView() {
     return (
         <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
             <View style={{ width: "90%", flexDirection: "row", marginBottom: 10 }}>
-                <Text style={{ fontSize: 22, fontWeight: "500", color: "white" }}>{new Date().toDateString()}</Text>
+                <Text style={{ fontSize: 22, fontWeight: "500", color: "white" }}>{new Date().toDateString() + " "}</Text>
                 <Text
                     style={{ fontSize: 22, fontWeight: "700", color: "red", marginStart: "auto" }}
                     onPress={() =>
@@ -50,25 +51,22 @@ export default function DayView() {
                     Logout
                 </Text>
             </View>
-            <ScrollView style={styles.scview} contentOffset={{y: 60*first}}>
-                {new Array(24).fill(0).map((i, j) => (
-                    <Card key={j} text={data.table[day].hasOwnProperty(j) ? data.activities[data.table[day][j]] : ""} hour={j} />
-                ))}
-            </ScrollView>
+            {day == 0 || day == 6 ? (
+                <View style={{ flex: 1, alignItems: "center", justifyContent: 'center'}}>
+                    <Text style={{ fontSize: 18, fontWeight: "400", color: "white" }}>Nothing To Do on Weekends</Text>
+                </View>
+            ) : (
+                <ScrollView style={styles.scview} contentOffset={{ y: 60 * first }}>
+                    {new Array(24).fill(0).map((i, j) => (
+                        <Card key={j} text={data.table[day].hasOwnProperty(j) ? data.activities[data.table[day][j]] : ""} hour={j} />
+                    ))}
+                </ScrollView>
+            )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    text: {
-        fontSize: 25,
-        backgroundColor: "cyan",
-        borderRadius: 5,
-        color: "black",
-        padding: 8,
-        margin: 2,
-    },
-
     scview: {
         width: "90%",
     },
