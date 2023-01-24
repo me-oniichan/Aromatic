@@ -10,7 +10,7 @@ export default function () {
     const [selectedHours, setSelectedHours] = useState(new Array(24).fill(0).map(()=>0));
 
     const sendHours = () =>{
-        const restricted = new Array();
+        const restricted = [];
         selectedHours.forEach((i,j)=>{
             if (i) restricted.push(j);
         })
@@ -29,7 +29,7 @@ export default function () {
                 prop : 'table',
                 payload : table
             })
-        })
+        }).catch(err=>console.log(err.code));
     }
     return (
         <View style={styles.wrapper}>
@@ -44,7 +44,7 @@ export default function () {
                             onPress={() => {
                                 setSelectedHours(
                                     selectedHours.map((state, hour) => {
-                                        if (hour == i) return !state;
+                                        if (hour === i) return !state;
                                         return state;
                                     })
                                 );

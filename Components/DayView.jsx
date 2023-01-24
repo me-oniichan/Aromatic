@@ -25,7 +25,7 @@ export default function DayView() {
     const day = new Date().getDay();
     // const day = 2;
     let first = data.restricted.length;
-
+    console.log(data)
     for (let i = 0; i < data.restricted.length; i++) {
         if (i !== data.restricted[i]) {
             first = i;
@@ -51,7 +51,7 @@ export default function DayView() {
                     Logout
                 </Text>
             </View>
-            {day == 0 || day == 6 ? (
+            {day === 0 || day === 6 ? (
                 <View style={{ flex: 1, alignItems: "center", justifyContent: 'center'}}>
                     <Text style={{ fontSize: 18, fontWeight: "400", color: "white" }}>Nothing To Do on Weekends</Text>
                 </View>

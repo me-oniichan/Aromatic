@@ -7,7 +7,7 @@ import { ref, set} from "firebase/database";
 
 function verify(user){
     let res = user.match("^[a-zA-Z0-9_]*$");
-    return res===null? false : true;
+    return res !== null;
 }
 
 export default function Login() {
@@ -27,7 +27,7 @@ export default function Login() {
     const [confpassVar, setConfpassVar] = useState("");
     const [nameVar, setNameVar] = useState("");
 
-    const [userauth, setUserauth] = useState(true);
+    const [userauth, setUserauth] = useState("");
 
     const login = () => {
         signInWithEmailAndPassword(auth, userVar + "@baka.aromatic", passVar)
@@ -39,15 +39,18 @@ export default function Login() {
                 console.log(user.user.email, "Dispatch from login");
             })
             .catch((err) => {
-                if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password") setUserauth(false);
-                console.log(err.message);
+                if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password") setUserauth("Username or password is wrong");
             });
     };
 
     const signup = () => {
         //create user
         if (!verify(userVar)){
-            console.log("invalid username");
+            setUserauth("Username can contain only alphabets, numbers and underscore");
+            return;
+        }
+        else if(nameVar === "") {
+            setUserauth("Name cannot be empty");
             return;
         }
         if (passVar === confpassVar) {
@@ -69,10 +72,10 @@ export default function Login() {
                     });
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.log(err.code);
                 });
         } else {
-            console.log("Password and Confirm password mismatch");
+            setUserauth("Password and Confirm Password mismatch");
         }
     };
 
@@ -119,7 +122,7 @@ export default function Login() {
                     secureTextEntry
                 />
             ) : null}
-            {!userauth? <Text style={{color:'red', marginBottom : 5}}>Username or password is wrong</Text>:""}
+            {userauth? <Text style={{color:'red', marginBottom : 5}}>{userauth}</Text>:""}
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
