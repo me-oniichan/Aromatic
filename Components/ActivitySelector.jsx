@@ -3,7 +3,6 @@ import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "r
 import { db } from "../Firebase/app";
 import { ref, set } from "firebase/database";
 import { useStore } from "react-redux";
-import Generator from "../utils/Generator";
 
 const Card = ({text, callback}) => {
     return (

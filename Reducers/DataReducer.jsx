@@ -14,9 +14,12 @@ const DataReducer = createSlice({
 
         dataUpdate(state, action) {
             return {...state, [action.prop]: action.payload}
+        },
+        setTable(state, action){
+            return {...state, ...action.payload}
         }
     }
 })
 
-export const {dataLoad, dataUpdate} = DataReducer.actions;
+export const {dataLoad, dataUpdate, setTable} = DataReducer.actions;
 export default DataReducer.reducer;

@@ -1,36 +1,33 @@
 import { ref, set } from "firebase/database";
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableHighlight, View } from "react-native";
-import { useStore } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { db } from "../Firebase/app";
 import Generator from "../utils/Generator";
 
 export default function () {
-    const store = useStore();
-    const [selectedHours, setSelectedHours] = useState(new Array(24).fill(0).map(()=>0));
+    const activities = useSelector((state) => state.data.activities);
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const [selectedHours, setSelectedHours] = useState(new Array(24).fill(0).map(() => 0));
 
-    const sendHours = () =>{
+    const sendHours = () => {
         const restricted = [];
-        selectedHours.forEach((i,j)=>{
+        selectedHours.forEach((i, j) => {
             if (i) restricted.push(j);
-        })
-        set(ref(db, `${store.getState().user}/data/restricted`), restricted).then(()=>{
-            store.dispatch({
-                type : 'data/dataUpdate',
-                prop : 'restricted',
-                payload : restricted
-            })
-        })
+        });
+        const table = Generator(restricted, activities);
 
-        const table = Generator(restricted, store.getState().data.activities);
-        set(ref(db, `${store.getState().user}/data/table`), table).then(()=>{
-            store.dispatch({
-                type : 'data/dataUpdate',
-                prop : 'table',
-                payload : table
+        set(ref(db, `${user}/data/restricted`), restricted);
+        set(ref(db, `${user}/data/table`), table)
+            .then(() => {
+                dispatch({
+                    type: "data/setTable",
+                    payload: { table, restricted },
+                });
             })
-        }).catch(err=>console.log(err.code));
-    }
+            .catch((err) => console.log(err.code));
+    };
     return (
         <View style={styles.wrapper}>
             <Text style={styles.restime}>Mark your restricted time period</Text>
@@ -56,7 +53,9 @@ export default function () {
                     </View>
                 ))}
             </ScrollView>
-            <Text style={styles.donebt} onPress={sendHours}>Done</Text>
+            <Text style={styles.donebt} onPress={sendHours}>
+                Done
+            </Text>
         </View>
     );
 }

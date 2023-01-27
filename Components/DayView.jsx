@@ -23,7 +23,7 @@ export default function DayView() {
     const { user, data } = useSelector((state) => ({ user: state.user, data: state.data }));
     const dispatch = useDispatch();
     const day = new Date().getDay();
-    // const day = 2;
+
     let first = data.restricted.length;
     console.log(data)
     for (let i = 0; i < data.restricted.length; i++) {
@@ -32,7 +32,7 @@ export default function DayView() {
             break;
         }
     }
-    console.log(user, data.restricted);
+    console.log('\n',data.table,'\n');
     return (
         <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
             <View style={{ width: "90%", flexDirection: "row", marginBottom: 10 }}>
@@ -58,7 +58,7 @@ export default function DayView() {
             ) : (
                 <ScrollView style={styles.scview} contentOffset={{ y: 60 * first }}>
                     {new Array(24).fill(0).map((i, j) => (
-                        <Card key={j} text={data.table[day].hasOwnProperty(j) ? data.activities[data.table[day][j]] : ""} hour={j} />
+                        <Card key={j} text={data.table[day-1].hasOwnProperty(j) ? data.activities[data.table[day-1][j]] : ""} hour={j} />
                     ))}
                 </ScrollView>
             )}
