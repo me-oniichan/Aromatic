@@ -36,7 +36,7 @@ export default function Login() {
                     type: "User/loadUser",
                     payload: userVar,
                 });
-                console.log(user.user.email, "Dispatch from login");
+                
             })
             .catch((err) => {
                 if (err.code === "auth/user-not-found" || err.code === "auth/wrong-password") setUserauth("Username or password is wrong");
@@ -68,8 +68,8 @@ export default function Login() {
                             type: "User/loadUser",
                             payload: userVar,
                         });
-                        console.log(user.user.email, "New user dipacthed");
-                    });
+                        
+                    }).catch(err=>console.log(err.code));
                 })
                 .catch((err) => {
                     console.log(err.code);

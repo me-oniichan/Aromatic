@@ -1,14 +1,14 @@
-import {useState} from "react";
-import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { db } from "../Firebase/app";
 import { ref, set } from "firebase/database";
 import { useStore } from "react-redux";
 
-const Card = ({text, callback}) => {
+const Card = ({ text, callback }) => {
     return (
         <View style={styles.cardview}>
             <Text style={styles.cardtext}>{text}</Text>
-            <Text style={{color: "#999999", fontSize: 20}} onPress={callback}>
+            <Text style={{ color: "#999999", fontSize: 20 }} onPress={callback}>
                 X
             </Text>
         </View>
@@ -21,16 +21,19 @@ export default function ActivitySelector() {
 
     const store = useStore();
 
-    function Senddata(){
-        set(ref(db, `${store.getState().user}/data/activities`), items).then(()=>{
+    function Senddata() {
+        set(ref(db, `${store.getState().user}/data/activities`), items).then(() => {
             store.dispatch({
-                type : 'data/dataUpdate',
-                prop : 'activities',
-                payload : items
+                type: 'data/dataUpdate',
+                prop: 'activities',
+                payload: items
             })
-        }).catch(err=>console.log("*"*20,"\n", err))
+        }).catch(err => {
+            console.log("*" * 20, "\n", err.code);
+            throw err;
+        })
     }
-    
+
 
     return (
         <View backgroundColor={"#2a2a2a"} style={styles.view}>
@@ -42,7 +45,7 @@ export default function ActivitySelector() {
                 borderWidth: 1,
                 borderColor: "#b75eff"
             }}>
-                <TextInput style={styles.input} onChangeText={setItem} value={item}/>
+                <TextInput style={styles.input} onChangeText={setItem} value={item} />
                 <TouchableOpacity
                     style={{
                         backgroundColor: "#b75eff",
@@ -56,7 +59,7 @@ export default function ActivitySelector() {
                         setItem("");
                     }}
                 >
-                    <Text style={{color: "white", fontSize: 20}}>Add</Text>
+                    <Text style={{ color: "white", fontSize: 20 }}>Add</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.scview}>
@@ -79,7 +82,7 @@ export default function ActivitySelector() {
                 justifyContent: "center",
                 borderRadius: 8,
             }} onPress={Senddata}>
-                <Text style={{color: "white", fontSize: 20}}>Done</Text>
+                <Text style={{ color: "white", fontSize: 20 }}>Done</Text>
             </TouchableOpacity>
         </View>
     );

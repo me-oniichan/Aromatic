@@ -1,7 +1,7 @@
 import { ref, set } from "firebase/database";
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableHighlight, View } from "react-native";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { db } from "../Firebase/app";
 import Generator from "../utils/Generator";
 
@@ -18,7 +18,7 @@ export default function () {
         });
         const table = Generator(restricted, activities);
 
-        set(ref(db, `${user}/data/restricted`), restricted);
+        set(ref(db, `${user}/data/restricted`), restricted).catch(err=>console.log(err.code));
         set(ref(db, `${user}/data/table`), table)
             .then(() => {
                 dispatch({

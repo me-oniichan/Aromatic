@@ -25,14 +25,14 @@ export default function DayView() {
     const day = new Date().getDay();
 
     let first = data.restricted.length;
-    console.log(data)
+
     for (let i = 0; i < data.restricted.length; i++) {
         if (i !== data.restricted[i]) {
             first = i;
             break;
         }
     }
-    console.log('\n',data.table,'\n');
+
     return (
         <View style={{ flex: 1, width: "100%", alignItems: "center" }}>
             <View style={{ width: "90%", flexDirection: "row", marginBottom: 10 }}>

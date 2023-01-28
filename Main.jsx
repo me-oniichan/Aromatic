@@ -29,7 +29,7 @@ export default function Main() {
                         type: "data/dataLoad",
                         payload: snapshot.val(),
                     });
-            });
+            }).catch(err=>console.log(err.code));
         }
     });
 
